@@ -1,21 +1,39 @@
 import 'dart:convert';
+import 'dart:io';
 // import 'dart:html';
 
-void main() {
-  // NOTE: Be sure to use double quotes ("),
-// not single quotes ('), inside the JSON string.
-// This string is JSON, not Dart.
-  var jsonString = '''
-  [
-    {"score": 40},
-    {"score": 80}
-  ]
-''';
+// void main() {
 
-  var scores = jsonDecode(jsonString);
-  scores.add({'score': 100});
+// }
 
-  
+// lets do some asynchroneous programming
+// we will use the dart:io library to read a file
+// we will use the dart:convert library to convert the file contents to a string
+// we will use the dart:html library to write the string to a file
 
-  print(scores);
+// we will use the async and await keywords to make our code more readable
+
+// Future<void> main() async {
+//   var file = File('./fle');
+//   var contents = await file.readAsString();
+//   print(contents);
+// }
+
+// read the file as a stream of lines
+
+Future<void> main() async {
+  var file = File('./fle');
+  Stream<String> lines = file
+      .openRead()
+      .transform(utf8.decoder)
+      .transform(LineSplitter()); // LineSplitter is a transformer
+  List<String> linesList = [];
+  try {
+  await for (var line in lines) {
+    linesList.add(line);
+  }
+  } catch (e) {
+    print(e.toString());
+  }
+  print(linesList);
 }
